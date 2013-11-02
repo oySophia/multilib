@@ -1,0 +1,123 @@
+#include "multilib.h"
+#include "gf_table.h"
+#include "w_x.h"
+
+static int prim = -1;
+static int mask1 = -1;
+static int mask2 = -1;
+
+static uint64_t prim_64 = -1UL;
+static uint64_t mask1_64 = -1UL;
+static uint64_t mask2_64 = -1UL;
+
+int single_logtable_multi_w8(int x, int y) {
+	int w = 8;
+//	if(gflog[w] == NULL) {
+//		if(gf_create_tables(w) < 0) {
+//			fprintf(stderr, "ERROR -- cannot make log tables for w = %d\n", w);
+///			exit(1);
+//		}
+//	}
+	return gf_logtable_multi(x, y, w);
+}
+
+int single_multitable_w8(int x, int y) {
+	int w = 8;
+//	if(gf_multi_tables[w] == NULL) {
+//		if(gf_create_multi_tables(w) < 0) {
+//			fprintf(stderr, "ERROR -- cannot make gf_multi_tables for w = %d\n", w);
+//			exit(1);
+//		}
+//	}
+	return gf_multitable_multi(x, y, w);
+}
+
+int single_shift_multi_w8(int x, int y) {
+	int w = 8;
+	return gf_shift_multi(x, y, w);
+}
+
+
+
+
+void gf_region_multiby2_w8(unsigned char *region, int nbytes) {
+	unsigned int *start, *end;
+	unsigned char *length;
+	unsigned int tmp1, tmp2;
+	
+	if(prim == -1) {
+		tmp1 = gf_multitable_multi((1 << 7), 2, 8); //最高位是1时，*2得到的结果即正常移位以外还需要XOR的数值
+		prim = 0;
+		while(tmp1 != 0) { //将int分成多个4，每个4-bit进行分别操作
+			prim |= tmp1;
+			tmp1 = tmp1 << 8;
+		}
+		tmp1 = (1 << 8) - 2;//tmp1 = 1110
+		mask1 = 0;
+		while(tmp1 != 0) {
+			mask1 |= tmp1;
+			tmp1 = tmp1 << 8;
+		}
+		tmp1 = (1 << 7);//tmp1 = 1000
+		mask2 = 0;
+		while(tmp1 != 0) {
+			mask2 |= tmp1;
+			tmp1 = tmp1 << 8;
+		}
+	}
+	    
+	length = region + nbytes;
+	start = (unsigned int *) region;
+	end = (unsigned int *) length;
+	    
+	while(start < end) {
+	    tmp1 = ((*start) << 1) & mask1;
+		tmp2 = (*start) & mask2;
+		tmp2 = (tmp2 << 1) - (tmp2 >> 7);//如果高位是1，则将4bit均设置成1，即1111
+		*start = (tmp1 ^ (tmp2 & prim));
+		++start;
+	}
+}
+
+void gf_region_multiby2_w8_64(unsigned char *region, int nbytes) {
+	uint64_t *start, *end;
+	unsigned *length;
+	uint64_t tmp1, tmp2;
+			   
+	if(prim_64 == -1UL) {
+		tmp1 = (uint64_t)gf_multitable_multi((1 << 7), 2, 8);
+		prim_64 = 0UL;
+		while(tmp1 != 0UL) {
+			prim_64 |= tmp1;
+			tmp1 = tmp1 << 8UL;
+		}
+		tmp1 = (1UL << 8UL) - 2UL;
+		mask1_64 = 0UL;
+		while(tmp1 != 0UL) {
+			mask1_64 |= tmp1;
+			tmp1 = (tmp1 << 8UL);
+		}
+		tmp1 = (1UL << 7UL);
+		mask2_64 = 0UL;
+		while(tmp1 != 0UL) {
+		    mask2_64 |= tmp1;
+			tmp1 = tmp1 << 8UL;
+		}
+	}
+	
+	length = region + nbytes;
+	start = (uint64_t *) region;
+	end = (uint64_t *) length;
+
+	while(start < end) {
+		tmp1 = ((*start) << 1UL) & mask1_64;
+		tmp2 = (*start) & mask2_64;
+		tmp2 = (tmp2 << 1UL) - (tmp2 >> 8UL);
+		*start = (tmp1) ^ (tmp2 & prim_64);
+		++start;
+	}
+}                                                                       
+
+
+
+
