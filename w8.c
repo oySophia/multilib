@@ -119,5 +119,31 @@ void gf_region_multiby2_w8_64(unsigned char *region, int nbytes) {
 }                                                                       
 
 
+//this funciton make a region multiply an integer.
+void gf_region_multi_w8(unsigned char *region, //the region will be in the multiplication
+		int multiby, //the number will multiply the region stated above
+		int nbytes,  //the length of region
+		unsigned char *reslt, //if it's not null, then the result of such multiplication will be stored here, or it will be stored in the region above
+		int add) //if it's not zero, and reslt above not NULL, then the result would first XOR reslt and then stored in reslt. 
+{
+	unsigned char *r1, *r2;
+	int i, lookup;
+
+	r1 = (unsigned char *) region;
+	r2 = (reslt == NULL) ? r1 : (unsigned char *) reslt;
+
+	if(reslt == NULL || !add) {
+		for(i = 0; i < nbytes; ++i) {
+			lookup = gf_multitable_multi(multiby, r1[i], 8);
+			r2[i] = lookup;
+		}
+	} else {
+		for(i = 0; i < nbytes; ++i) {
+			lookup = gf_multitable_multi(multiby, r1[i], 8);
+			r2[i] ^= lookup;
+		}
+	}
+}
+
 
 

@@ -45,7 +45,7 @@ void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 	unsigned char *length;
 	uint64_t tmp1, tmp2;
 
-	if(prim_64 = -1UL) {
+	if(prim_64 == -1UL) {
 		tmp1 = (uint64_t)gf_shift_multi((1 << 31), 2, 32);
 		prim_64 = 0UL;
 		while(tmp1 != 0UL) {
@@ -67,8 +67,8 @@ void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 	}
 
 	length = region + nbytes;
-	start = (uint64_t) region;
-	end = (uint64_t) length;
+	start = (uint64_t *) region;
+	end = (uint64_t *) length;
 
 	while(start < end) {
 		tmp1 = ((*start) << 1UL) & mask1_64;
@@ -77,4 +77,26 @@ void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 		*start = tmp1 ^ (tmp2 & prim_64);
 		++start;
 	}
+}
+
+
+void gf_region_multi_w32(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add) {
+	uint32_t *r1, *r2;
+	int i;
+	
+	r1 = (uint32_t *) region;
+	r2 = (reslt == NULL) ? r1 : (uint32_t *) reslt;
+	nbytes /= sizeof(uint32_t);
+
+	//this use split_w8_works
+	//....
+	//
+	//
+	//
+	//
+	//
 }

@@ -30,3 +30,22 @@ void gf_region_multiby2_w32(unsigned char *region, int nbytes);
 void gf_region_multiby2_w32_64(unsigned char *region, int nbytes);
 
 void gf_region_multiby2_w64(unsigned char *region, int nbytes);
+
+//these funcitons are to make region multiplied by an integer, and such process uses the fastest single_multi function for each w
+void gf_region_multi_w8(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add);
+
+void gf_region_multi_w16(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add);
+
+void gf_region_multi_w32(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add);

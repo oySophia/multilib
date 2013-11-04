@@ -109,4 +109,54 @@ void gf_region_multiby2_w16_64(unsigned char *region, int nbytes) {
 }                                                                                                     
                                                                                                       
 
+void gf_region_multi_w16(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add) {
+	uint16_t *r1, *r2;
+	//int lookup;
+	int i;
+	uint16_t *start, *end;
 
+	r1 = (uint16_t *) region;
+	r2 = (reslt == NULL) ? r1 : (uint16_t *) reslt;
+	nbytes /= sizeof(uint16_t);
+
+	if(multiby == 0) {
+		if(!add) {
+			start = (uint16_t *) r2;
+			r2 += nbytes;
+			end = (uint16_t *) r2;
+			while(start < end) {
+				*start = 0;
+				++start;
+			}
+		}
+		return;
+	}
+
+	if(reslt == NULL || !add) {
+		for(i = 0; i < nbytes; ++i) {
+			if(r1[i] == 0) {
+				r2[i] = 0;
+			} else {
+				r2[i] = gf_logtable_multi(multiby, r1[i], 16);
+			}
+		}
+	} else {
+		for(i = 0; i < nbytes; ++i) {
+			if(r1[i] == 0) {
+				r2[i] = 0;
+			} else {
+				r2[i] = r2[i] ^ gf_logtable_multi(multiby, r1[i], 16);
+			}
+		}
+
+	}
+	return;
+}
+
+	
+
+	
