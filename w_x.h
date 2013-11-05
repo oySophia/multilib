@@ -8,6 +8,11 @@ int single_logtable_multi_w16(int x, int y);
 int single_multitable_w4(int x, int y);
 int single_multitable_w8(int x, int y);
 
+//such 2 funcitons are special for w = 32;
+int gf_create_split_w8_tables();
+//according to james's lib, it tends to use such function when have two numbers multiplicated;
+int gf_split_w8_multi(int x, int y);//also a single_multi
+
 //shifting multiply with detailed information given in the original fulfillment of the related functions
 int single_shift_multi_w4(int x, int y);
 int single_shift_multi_w8(int x, int y);
