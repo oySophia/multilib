@@ -1,7 +1,7 @@
 #include "multilib.h"
 #include "gf_table.h"
 
-//the prim_polys, transferred into binary, are listed to the w.
+///the prim_polys, transferred into binary, are listed to the w.
 static int prim_poly[33] =                                                                                                                         
 { 0, 
   /*  1 */     1, 
@@ -37,7 +37,7 @@ static int prim_poly[33] =
   /* 31 */    020000000011, 
   /* 32 */    00020000007 }; 
 
-//the total number refers to the wordsize w
+///the total number refers to the wordsize w
 static int nw[33] = { 0, (1 << 1), (1 << 2), (1 << 3), (1 << 4), 
 	(1 << 5), (1 << 6), (1 << 7), (1 << 8), (1 << 9), (1 << 10),
     (1 << 11), (1 << 12), (1 << 13), (1 << 14), (1 << 15), (1 << 16),
@@ -45,7 +45,7 @@ static int nw[33] = { 0, (1 << 1), (1 << 2), (1 << 3), (1 << 4),
     (1 << 23), (1 << 24), (1 << 25), (1 << 26), (1 << 27), (1 << 28),
     (1 << 29), (1 << 30), (1 << 31), -1 };
 
-//with w-wordsize, the total table size
+///with w-wordsize, the total table size
 static int table_nw[33] = { 0, (1 << 1)-1, (1 << 2)-1, (1 << 3)-1, (1 << 4)-1, 
     (1 << 5)-1, (1 << 6)-1, (1 << 7)-1, (1 << 8)-1, (1 << 9)-1, (1 << 10)-1,
     (1 << 11)-1, (1 << 12)-1, (1 << 13)-1, (1 << 14)-1, (1 << 15)-1, (1 << 16)-1,
@@ -53,23 +53,24 @@ static int table_nw[33] = { 0, (1 << 1)-1, (1 << 2)-1, (1 << 3)-1, (1 << 4)-1,
     (1 << 23)-1, (1 << 24)-1, (1 << 25)-1, (1 << 26)-1, (1 << 27)-1, (1 << 28)-1,
     (1 << 29)-1, (1 << 30)-1, 0x7fffffff, 0xffffffff };
 
-//the gflog tables
+///the gflog tables
 static int *gflog[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
   
-//the gfilog tables
+///the gfilog tables
 static int *gfilog[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
-//the externed multiply tables
+///the externed multiply tables
 static int *gf_multi_tables[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
-
-//create gflog tables and gfilog tables with the vented w.
+/**@fn int gf_create_tables(int w)
+ * @brief create gflog tables and gfilog tables with the vented w.
+ */
 int gf_create_tables(int w) {
 	int b, log;
 	if(w > 30) {
@@ -110,7 +111,9 @@ int gf_create_tables(int w) {
 	return 1;
 }
 
-//single multiply with directly using of gflog tables and gfilog tables
+/**@fn int gf_logtable_multi(int x, int y, int w)
+ * @brief single multiply with directly using of gflog tables and gfilog tables
+ */
 int gf_logtable_multi(int x, int y, int w) {
 	int sum;
 	if(x == 0 || y == 0) {
@@ -128,7 +131,9 @@ int gf_logtable_multi(int x, int y, int w) {
 	return gfilog[w][sum];
 }
 
-//this part's function is try to extern the multiply-tables to 2^w * 2^w, and sacrifice the space for little caculating. With such function, we can just look up the tables with values of x and y
+/**@fn gf_create_multi_tables(int w)
+ * @brief this part's function is try to extern the multiply-tables to 2^w * 2^w, and sacrifice the space for little caculating. With such function, we can just look up the tables with values of x and y
+ */
 int gf_create_multi_tables(int w) {
 	int global_i, index_x, index_y, logx;
 
@@ -196,6 +201,9 @@ int gf_create_multi_tables(int w) {
 	return 0;
 }	
 
+/**@fn int gf_multitable_multi(int x, int y, int w)
+ * @brief this function just complete the single ones multiplication using gf_multi_tables.
+ */
 int gf_multitable_multi(int x, int y, int w) {
 	if(gf_multi_tables[w] == NULL) {
 		if(gf_create_multi_tables(w) < 0) {
@@ -207,7 +215,9 @@ int gf_multitable_multi(int x, int y, int w) {
 	return gf_multi_tables[w][(x << w) | y];
 } 
 
-//this shift function is a bit different with the table-looking-up ones, following the traditional multiply way: binary x and * y bit by bit with transfer such proccess to a y-shifting with MOD the prim_poly.
+/**@fn
+ * @brief this shift function is a bit different with the table-looking-up ones, following the traditional multiply way: binary x and * y bit by bit with transfer such proccess to a y-shifting with MOD the prim_poly.
+ */
 int gf_shift_multi(int x, int y, int w) {
 	int result = 0;
 	int i, x_binary, shift_y[33];

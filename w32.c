@@ -18,16 +18,21 @@ static int *gf_split_w8[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 //	return gf_logtable_multi(x, y, w);
 //}
 
+/**@fn int single_shift_multi_w32(int x, int y)
+ * @brief call function of gf_shift_multi() in gf_tables.c
+ */
 int single_shift_multi_w32(int x, int y) {
 	int w = 32;
 	return gf_shift_multi(x, y, w);
 }	
 
-//such function is a split-multiplication that uses 7 full multipllcation tables, since it's impossible to complete with log/ilog when w = 32; memory limiting
-//这个函数只是简单的将32bit分成4个8份，然后一次相乘，分别保存相乘的结果在表格中，依次查找，并没有使用到更好的策略，如先查表再 and 运算等。
-//思路比较简单，所需内存大小8 * 2^16 = 512K
-//?比单纯只用shift要快？？因为在james的代码里实现single_multi的时候，此函数优先级高于shift的
-
+/**@fn int gf_create_split_w8_tables();
+ * such function is a split-multiplication that uses 7 full multipllcation tables, since it's impossible to complete with log/ilog when w = 32; memory limiting
+ * 这个函数只是简单的将32bit分成4个8份，然后一次相乘，分别保存相乘的结果在表格中，依次查找，并没有使用到更好的策略，如先查表再 and 运算等。
+ * 思路比较简单，所需内存大小8 * 2^16 = 512K
+ * ?比单纯只用shift要快？？因为在james的代码里实现single_multi的时候，此函数优先级高于shift的
+ *
+ */
 int gf_create_split_w8_tables() {
 	int x_orig, y_orig, i, j, x_ele, y_ele, index, ishift, jshift, *table;
 
@@ -60,7 +65,9 @@ int gf_create_split_w8_tables() {
 	return 0;
 }
 
-//根据以上构造的tables，下面利用此进行运算；
+/**@fn int gf_split_w8_multi(int x, int y)
+ * @brief 根据以上构造的tables，下面利用此进行运算；
+ */
 int gf_split_w8_multi(int x, int y) {
 	int i, j, xx, yy, sum, x_8bits, y_8bits;
 
@@ -80,7 +87,10 @@ int gf_split_w8_multi(int x, int y) {
 }
 
 
-
+/**@fn void gf_region_multiby2_w32(unsigned char *region, int nbytes)
+ * @brief this function is same to the function of gf_region_multiby2_w4() in w4.c
+ *
+ */
 void gf_region_multiby2_w32(unsigned char *region, int nbytes) {
 	int *start, *end;
 	unsigned char *length;
@@ -99,6 +109,9 @@ void gf_region_multiby2_w32(unsigned char *region, int nbytes) {
 	}
 }
 
+/**@fn void gf_region_multiby2_w32_64(unsigned char *region, int nbytes)
+ * @brief this function is same to the function of gf_region_multiby2_w4_64() in w4.c
+ */
 void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 	uint64_t *start, *end;
 	unsigned char *length;
@@ -139,6 +152,13 @@ void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 }
 
 
+/**@fn void gf_region_multi_w32(unsigned char *region,
+ * 			int multiby,
+ * 			int nbytes,
+ * 			unsigned char *reslt.
+ * 			int add)
+ * @brief this function is same to the function of gf_region_multi_w8() in w8.c
+ */
 void gf_region_multi_w32(unsigned char *region,
 		int multiby,
 		int nbytes,

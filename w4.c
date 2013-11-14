@@ -2,18 +2,21 @@
 #include "gf_table.h"
 #include "w_x.h"
 
-//prim指根据本原多项式，GF中若有一个4-bit的word *2 可以对应转换成（正常的移位运算XOR prim），这样不会用到lookup tables
+///prim指根据本原多项式，GF中若有一个4-bit的word *2 可以对应转换成（正常的移位运算XOR prim），这样不会用到lookup tables
 static int prim = -1;
-//mask1指fefe...，*2表示x向左移一位，移位后，将高位移出去的1设置为0，这样结果才不会出错
+///mask1指fefe...，*2表示x向左移一位，移位后，将高位移出去的1设置为0，这样结果才不会出错
 static int mask1 = -1;
-//mask2为100010001000...，判断x的4th/8th等等是不是1，如果是1，则取prim与（x<<1）XOR，结果即为*2的result
+///mask2为100010001000...，判断x的4th/8th等等是不是1，如果是1，则取prim与（x<<1）XOR，结果即为*2的result
 static int mask2 = -1;
 
-//和上面类似，唯一区别是，机器的int型大小是32，若将整个一次运算的word增大，速度也会提高；
+///和上面类似，唯一区别是，机器的int型大小是32，若将整个一次运算的word增大，速度也会提高；
 static uint64_t prim_64 = -1UL;
 static uint64_t mask1_64 = -1UL;
 static uint64_t mask2_64 = -1UL;
 
+/**@fn int single_logtable_multi_w4(int x, int y)
+ * @brief call function of gf_logtable_multi(x, y, w) in gf_tables.c
+ */
 int single_logtable_multi_w4(int x, int y) {
 	int w = 4;
 //	if(gflog[w] == NULL) {
@@ -26,6 +29,9 @@ int single_logtable_multi_w4(int x, int y) {
 	return gf_logtable_multi(x, y, w);
 }
 
+/**@fn int single_multitable_w4(int x, int y)
+ * @brief call function of gf_multitable_multi(x, y, w) in gf_tables.c
+ */
 int single_multitable_w4(int x, int y) {
 	int w = 4;
 //		printf("%d\n", gf_multi_tables[w]);
@@ -50,13 +56,19 @@ int single_multitable_w4(int x, int y) {
 	return gf_multitable_multi(x, y, w);
 }
 
+/**@fn int single_shift_multi_w4(int x, int y)
+ * @brief call function of gf_shift_multi(x, y, w) in gf_tables.c
+ */
 int single_shift_multi_w4(int x, int y) {
 	int w = 4;
 	return gf_shift_multi(x, y, w);
 }
 
-
-//this by 2 functions are another form of the gf algrithm without refer to the gflog and gfilog tables, whereas it is still rooting in the prim_poly.
+/**@fn void gf_region_multiby2_w4(unsigned char *region, int nbytes)
+ * this by 2 functions are another form of the gf algrithm without refer to the gflog and gfilog tables, whereas it is still rooting in the prim_poly.
+ * @param region the data region will join the multiplication
+ * @param nbytes it will multiply the region
+ */
 void gf_region_multiby2_w4(unsigned char *region, int nbytes) {
 	unsigned int *start, *end;
 	unsigned char *length;
@@ -96,6 +108,11 @@ void gf_region_multiby2_w4(unsigned char *region, int nbytes) {
 	}
 }
 
+/**@fn void gf_region_multiby2_w4_64(unsigned char *region, int nbytes)
+ * This function merely seem to the gf_region_multiby2_w4(), but it has aligned the word size to 64-bit
+ * /param region the data region will join the mulplication
+ * /param nbytes it will multiply the region
+ */
 void gf_region_multiby2_w4_64(unsigned char *region, int nbytes) {
 	uint64_t *start, *end;
 	unsigned *length;

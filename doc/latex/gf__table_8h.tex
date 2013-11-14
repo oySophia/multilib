@@ -1,0 +1,93 @@
+\hypertarget{gf__table_8h}{\section{gf\-\_\-table.\-h \-File \-Reference}
+\label{gf__table_8h}\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}}
+}
+
+
+\-This head file is a supplemental file to the \hyperlink{w__x_8h}{w\-\_\-x.\-h}, which takes w into consideration in details.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{gf__table_8h_ad7f8c434b7ecd3fa3ad4ac5bb13d9115}{gf\-\_\-create\-\_\-tables} (int w)
+\begin{DoxyCompactList}\small\item\em create gflog tables and gfilog tables with the vented w. \end{DoxyCompactList}\item 
+int \hyperlink{gf__table_8h_a23d752950f2e6d7f8953bda354b34891}{gf\-\_\-logtable\-\_\-multi} (int x, int y, int w)
+\begin{DoxyCompactList}\small\item\em single multiply with directly using of gflog tables and gfilog tables \end{DoxyCompactList}\item 
+int \hyperlink{gf__table_8h_ab41814c48d4cbca7eca0028df6e45008}{gf\-\_\-create\-\_\-multi\-\_\-tables} (int w)
+\begin{DoxyCompactList}\small\item\em this part's function is try to extern the multiply-\/tables to 2$^\wedge$w $\ast$ 2$^\wedge$w, and sacrifice the space for little caculating. \end{DoxyCompactList}\item 
+int \hyperlink{gf__table_8h_a8d8f79208ee1a7bf5c06a6b8bbde5ca1}{gf\-\_\-multitable\-\_\-multi} (int x, int y, int w)
+\begin{DoxyCompactList}\small\item\em this function just complete the single ones multiplication using gf\-\_\-multi\-\_\-tables. \end{DoxyCompactList}\item 
+int \hyperlink{gf__table_8h_add0b6ae55029dddde404bf217e107c05}{gf\-\_\-shift\-\_\-multi} (int x, int y, int w)
+\begin{DoxyCompactList}\small\item\em shift\-\_\-multi can be for w $<$= 33, and when w = 64, it has been achieved in the file w64.\-c. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This head file is a supplemental file to the \hyperlink{w__x_8h}{w\-\_\-x.\-h}, which takes w into consideration in details. \-Whereas this file is all about the log tables establishment .etc, namely, it is used to complete the same part codes which is required by all forms of w values. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{gf__table_8h_ab41814c48d4cbca7eca0028df6e45008}{\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}!gf\-\_\-create\-\_\-multi\-\_\-tables@{gf\-\_\-create\-\_\-multi\-\_\-tables}}
+\index{gf\-\_\-create\-\_\-multi\-\_\-tables@{gf\-\_\-create\-\_\-multi\-\_\-tables}!gf_table.h@{gf\-\_\-table.\-h}}
+\subsubsection[{gf\-\_\-create\-\_\-multi\-\_\-tables}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gf\-\_\-create\-\_\-multi\-\_\-tables} (
+\begin{DoxyParamCaption}
+\item[{int}]{w}
+\end{DoxyParamCaption}
+)}}\label{gf__table_8h_ab41814c48d4cbca7eca0028df6e45008}
+
+
+this part's function is try to extern the multiply-\/tables to 2$^\wedge$w $\ast$ 2$^\wedge$w, and sacrifice the space for little caculating. 
+
+\-Multi\-\_\-tables just for w $<$= 13.
+
+\-With such function, we can just look up the tables with values of x and y
+
+\-This function just applies log and ilog tables to complete the full-\/multiplication tables, which need much more space but less compute. \hypertarget{gf__table_8h_ad7f8c434b7ecd3fa3ad4ac5bb13d9115}{\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}!gf\-\_\-create\-\_\-tables@{gf\-\_\-create\-\_\-tables}}
+\index{gf\-\_\-create\-\_\-tables@{gf\-\_\-create\-\_\-tables}!gf_table.h@{gf\-\_\-table.\-h}}
+\subsubsection[{gf\-\_\-create\-\_\-tables}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gf\-\_\-create\-\_\-tables} (
+\begin{DoxyParamCaption}
+\item[{int}]{w}
+\end{DoxyParamCaption}
+)}}\label{gf__table_8h_ad7f8c434b7ecd3fa3ad4ac5bb13d9115}
+
+
+create gflog tables and gfilog tables with the vented w. 
+
+log and ilog tables just for w $<$ 30 \hypertarget{gf__table_8h_a23d752950f2e6d7f8953bda354b34891}{\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}!gf\-\_\-logtable\-\_\-multi@{gf\-\_\-logtable\-\_\-multi}}
+\index{gf\-\_\-logtable\-\_\-multi@{gf\-\_\-logtable\-\_\-multi}!gf_table.h@{gf\-\_\-table.\-h}}
+\subsubsection[{gf\-\_\-logtable\-\_\-multi}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gf\-\_\-logtable\-\_\-multi} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{w}
+\end{DoxyParamCaption}
+)}}\label{gf__table_8h_a23d752950f2e6d7f8953bda354b34891}
+
+
+single multiply with directly using of gflog tables and gfilog tables 
+
+related functions with gf\-\_\-create\-\_\-tables, further fulfullment of gf\-\_\-logtables multiplication \hypertarget{gf__table_8h_a8d8f79208ee1a7bf5c06a6b8bbde5ca1}{\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}!gf\-\_\-multitable\-\_\-multi@{gf\-\_\-multitable\-\_\-multi}}
+\index{gf\-\_\-multitable\-\_\-multi@{gf\-\_\-multitable\-\_\-multi}!gf_table.h@{gf\-\_\-table.\-h}}
+\subsubsection[{gf\-\_\-multitable\-\_\-multi}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gf\-\_\-multitable\-\_\-multi} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{w}
+\end{DoxyParamCaption}
+)}}\label{gf__table_8h_a8d8f79208ee1a7bf5c06a6b8bbde5ca1}
+
+
+this function just complete the single ones multiplication using gf\-\_\-multi\-\_\-tables. 
+
+\-This function merely further completes the look step of full-\/multiplication table. \hypertarget{gf__table_8h_add0b6ae55029dddde404bf217e107c05}{\index{gf\-\_\-table.\-h@{gf\-\_\-table.\-h}!gf\-\_\-shift\-\_\-multi@{gf\-\_\-shift\-\_\-multi}}
+\index{gf\-\_\-shift\-\_\-multi@{gf\-\_\-shift\-\_\-multi}!gf_table.h@{gf\-\_\-table.\-h}}
+\subsubsection[{gf\-\_\-shift\-\_\-multi}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf gf\-\_\-shift\-\_\-multi} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{w}
+\end{DoxyParamCaption}
+)}}\label{gf__table_8h_add0b6ae55029dddde404bf217e107c05}
+
+
+shift\-\_\-multi can be for w $<$= 33, and when w = 64, it has been achieved in the file w64.\-c. 
+
+consideration the memory limitation, the space needing can be so tremendous that it can not be fulfillment when w $>$ 33, so this function doesn't use any table or look-\/up, it calculates the variable y's shifting values according to the every x-\/bit. 

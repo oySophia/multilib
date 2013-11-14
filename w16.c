@@ -10,6 +10,10 @@ static uint64_t prim_64 = -1UL;
 static uint64_t mask1_64 = -1UL;
 static uint64_t mask2_64 = -1UL;
 
+/**@fn int single_logtable_multi_w16(int x, int y)
+ * @brief call function of gf_logtable_multi() in gf_tables.c
+ *
+ */
 int single_logtable_multi_w16(int x, int y) {
 	int w = 16;
 //	if(gflog[w] == NULL) {
@@ -21,15 +25,18 @@ int single_logtable_multi_w16(int x, int y) {
 	return gf_logtable_multi(x, y, w);
 }
 
+/**@fn int single_shift_multi_w16(int x, int y)
+ * @brief call function of gf_shift_multi() in gf_tables.c
+ */
 int single_shift_multi_w16(int x, int y) {
 	int w = 16;
 	return gf_shift_multi(x, y, w);
 }
 
-
-
-
-
+/**@fn void gf_region_multiby2_w16(unsigned char *region, int nbytes)
+ * @brief this function is same to the function of gf_region_multiby2_w4() in w4.c
+ *
+ */
 void gf_region_multiby2_w16(unsigned char *region, int nbytes) {
 	unsigned int *start, *end;                                                                                
 	unsigned char *length;
@@ -69,6 +76,10 @@ void gf_region_multiby2_w16(unsigned char *region, int nbytes) {
 	}
 }
 
+/**@fn void gf_region_multiby2_w16_64(unsigned char *region, int nbytes)
+ * @brief this function is same to the function of gf_region_multiby2_w4_64() in w4.c
+ *
+ */
 void gf_region_multiby2_w16_64(unsigned char *region, int nbytes) {
 	uint64_t *start, *end;
 	unsigned *length;
@@ -108,7 +119,13 @@ void gf_region_multiby2_w16_64(unsigned char *region, int nbytes) {
 	}
 }                                                                                                     
                                                                                                       
-
+/**@fn void gf_region_multi_w16(unsigned char *region,
+ * 			int multiby,
+ * 			int nbytes,
+ * 			unsigned char *reslt,
+ * 			int add)
+ *@brief this function is same to the function gf_region_multi_w8() in w8.c
+ */
 void gf_region_multi_w16(unsigned char *region,
 		int multiby,
 		int nbytes,

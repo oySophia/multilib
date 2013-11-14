@@ -10,6 +10,9 @@ static uint64_t prim_64 = -1UL;
 static uint64_t mask1_64 = -1UL;
 static uint64_t mask2_64 = -1UL;
 
+/**@fn int single_logtable_multi_w8(int x, int y)
+ * @brief call function of gf_logtable_multi(x, y, w) in gf_tables.c
+ */
 int single_logtable_multi_w8(int x, int y) {
 	int w = 8;
 //	if(gflog[w] == NULL) {
@@ -21,6 +24,10 @@ int single_logtable_multi_w8(int x, int y) {
 	return gf_logtable_multi(x, y, w);
 }
 
+/**@fn int single_multitable_w8(int x, int y)
+ * @brief call function of gf_multitable_multi(x, y, w) in gf_tables.c
+ *
+ */
 int single_multitable_w8(int x, int y) {
 	int w = 8;
 //	if(gf_multi_tables[w] == NULL) {
@@ -32,13 +39,18 @@ int single_multitable_w8(int x, int y) {
 	return gf_multitable_multi(x, y, w);
 }
 
+/**@fn int single_shift_multi_w8(int x, int y)
+ * @brief call function of gf_shift_multi(x, y, w) in gf_tables.c
+ *
+ */
 int single_shift_multi_w8(int x, int y) {
 	int w = 8;
 	return gf_shift_multi(x, y, w);
 }
 
-
-
+/**@fn void gf_region_multiby2_w8(unsigned char *region, int nbytes)
+ * @brief this function is same to the function of gf_region_multiby2_w4() in w4.c
+ */
 
 void gf_region_multiby2_w8(unsigned char *region, int nbytes) {
 	unsigned int *start, *end;
@@ -79,6 +91,9 @@ void gf_region_multiby2_w8(unsigned char *region, int nbytes) {
 	}
 }
 
+/**@fn void gf_region_multiby2_w8_64(unsigned char *region, int nbytes)
+ * @brief this function is just like function gf_region_multiby2_w4_64() in w4.c
+ */
 void gf_region_multiby2_w8_64(unsigned char *region, int nbytes) {
 	uint64_t *start, *end;
 	unsigned *length;
@@ -118,7 +133,17 @@ void gf_region_multiby2_w8_64(unsigned char *region, int nbytes) {
 	}
 }                                                                       
 
-
+/**@fn void gf_region_multi_w8(unsigned char *region, 
+ * 		int multiby, 
+ * 		int nbytes,
+ * 		unsigned char *reslt,
+ * 		int add)
+ * @param region the region will be in the multiplication
+ * @param multiby the number will multiply the region stated above
+ * @param nbytes the length of region
+ * @param reslt if it's not null, then the result of such multiplication will be stored here, or it will be stored in the region above 
+ * @oaram add if it's not zero, and reslt above not NULL, then the result would first XOR reslt and then stored in reslt
+ */
 //this funciton make a region multiply an integer.
 void gf_region_multi_w8(unsigned char *region, //the region will be in the multiplication
 		int multiby, //the number will multiply the region stated above

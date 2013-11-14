@@ -1,0 +1,243 @@
+\hypertarget{w__x_8h}{\section{w\-\_\-x.\-h \-File \-Reference}
+\label{w__x_8h}\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}}
+}
+
+
+\-This is a .h file contains all the functions completed considering the different values of w.  
+
+
+\subsection*{\-Functions}
+\begin{Indent}{\bf single\-\_\-ogtable\-\_\-multiplication}\par
+{\em directly employing the gflog tables and gfilog tables.
+
+such functions are fastest when 13 $<$ w $<$= 29. }\begin{DoxyCompactItemize}
+\item 
+\hypertarget{w__x_8h_ae279b36fa7b83e71270d4e90043d7bc3}{int \hyperlink{w__x_8h_ae279b36fa7b83e71270d4e90043d7bc3}{single\-\_\-logtable\-\_\-multi\-\_\-w4} (int x, int y)}\label{w__x_8h_ae279b36fa7b83e71270d4e90043d7bc3}
+
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-logtable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+int \hyperlink{w__x_8h_af158d1e7251d4d972d8abb61c60415cc}{single\-\_\-logtable\-\_\-multi\-\_\-w8} (int x, int y)
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-logtable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+int \hyperlink{w__x_8h_af085beb6424bf9c8602fb6a83e2b7c6f}{single\-\_\-logtable\-\_\-multi\-\_\-w16} (int x, int y)
+\begin{DoxyCompactList}\small\item\em call function of \hyperlink{gf__table_8h_a23d752950f2e6d7f8953bda354b34891}{gf\-\_\-logtable\-\_\-multi()} in gf\-\_\-tables.\-c \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf single\-\_\-multitable mutiplication}\par
+{\em externing the gflog and gfilog tables to 2$^\wedge$w $\ast$ 2$^\wedge$w size tables, namely multiply table.
+
+such functions are fastest when w $<$= 13. }\begin{DoxyCompactItemize}
+\item 
+\hypertarget{w__x_8h_a067024656de28bfde6f08688a033bb5b}{int \hyperlink{w__x_8h_a067024656de28bfde6f08688a033bb5b}{single\-\_\-multitable\-\_\-w4} (int x, int y)}\label{w__x_8h_a067024656de28bfde6f08688a033bb5b}
+
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-multitable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+int \hyperlink{w__x_8h_a86a27212036f53a61298bfc6f6fbcd2d}{single\-\_\-multitable\-\_\-w8} (int x, int y)
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-multitable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf galois split\-\_\-w8 multiplication}\par
+{\em such 2 funcitons are special for w = 32; it's much simple merely dividing the 32-\/bit to 4 8-\/bit trips, and the split\-\_\-tables just have the eventual answers of trip by trip considering the high bits.
+
+according to james's lib, it tends to use such function when have two numbers multiplicated; such function is fastest when w = 32. }\begin{DoxyCompactItemize}
+\item 
+\hypertarget{w__x_8h_a959943dc9f6d7b15f913584ca510ce5a}{int \hyperlink{w__x_8h_a959943dc9f6d7b15f913584ca510ce5a}{gf\-\_\-create\-\_\-split\-\_\-w8\-\_\-tables} ()}\label{w__x_8h_a959943dc9f6d7b15f913584ca510ce5a}
+
+\begin{DoxyCompactList}\small\item\em \{@ \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a75ce50f5c443ac58a52f1467ceb24746}{int \hyperlink{w__x_8h_a75ce50f5c443ac58a52f1467ceb24746}{gf\-\_\-split\-\_\-w8\-\_\-multi} (int x, int y)}\label{w__x_8h_a75ce50f5c443ac58a52f1467ceb24746}
+
+\begin{DoxyCompactList}\small\item\em 根据以上构造的tables，下面利用此进行运算； \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf single\-\_\-shift multiplication}\par
+{\em shifting multiply with detailed information given in the original fulfillment of the related functions.
+
+such functions are w $>$= 30 except w = 30. }\begin{DoxyCompactItemize}
+\item 
+\hypertarget{w__x_8h_a52c2eb07332544e34f5dc60d6983fdc0}{int \hyperlink{w__x_8h_a52c2eb07332544e34f5dc60d6983fdc0}{single\-\_\-shift\-\_\-multi\-\_\-w4} (int x, int y)}\label{w__x_8h_a52c2eb07332544e34f5dc60d6983fdc0}
+
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-shift\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+int \hyperlink{w__x_8h_aae6d28357601f137b36ec23dba253ce9}{single\-\_\-shift\-\_\-multi\-\_\-w8} (int x, int y)
+\begin{DoxyCompactList}\small\item\em call function of gf\-\_\-shift\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a3450e4f0d8fc91a646f25ca5295cefd1}{int \hyperlink{w__x_8h_a3450e4f0d8fc91a646f25ca5295cefd1}{single\-\_\-shift\-\_\-multi\-\_\-w16} (int x, int y)}\label{w__x_8h_a3450e4f0d8fc91a646f25ca5295cefd1}
+
+\begin{DoxyCompactList}\small\item\em call function of \hyperlink{gf__table_8h_add0b6ae55029dddde404bf217e107c05}{gf\-\_\-shift\-\_\-multi()} in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a162e4b7e7c605b82007c156aacbfa23e}{int \hyperlink{w__x_8h_a162e4b7e7c605b82007c156aacbfa23e}{single\-\_\-shift\-\_\-multi\-\_\-w32} (int x, int y)}\label{w__x_8h_a162e4b7e7c605b82007c156aacbfa23e}
+
+\begin{DoxyCompactList}\small\item\em call function of \hyperlink{gf__table_8h_add0b6ae55029dddde404bf217e107c05}{gf\-\_\-shift\-\_\-multi()} in gf\-\_\-tables.\-c \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a7246f5528f1408a635a27aa35667efe4}{uint64\-\_\-t \hyperlink{w__x_8h_a7246f5528f1408a635a27aa35667efe4}{gf\-\_\-shift\-\_\-multi\-\_\-64} (uint64\-\_\-t x, uint64\-\_\-t y)}\label{w__x_8h_a7246f5528f1408a635a27aa35667efe4}
+
+\begin{DoxyCompactList}\small\item\em this shift funcitons algorithm is same with the 4, 8, 16-\/word size shifting funcitons \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf galois region muliplication by 2 functions and externed word-\/size to 64 using by 2 multiplication functions}\par
+{\em functions listed below are used in raid6-\/-\/-\/-\/refer to the algorithm by paper }\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4} (unsigned char $\ast$region, int nbytes)
+\begin{DoxyCompactList}\small\item\em this by 2 functions are another form of the gf algrithm without refer to the gflog and gfilog tables, whereas it is still rooting in the prim\-\_\-poly. \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{void \hyperlink{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{gf\-\_\-region\-\_\-multiby2\-\_\-w4\-\_\-64} (unsigned char $\ast$region, int nbytes)}\label{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}
+
+\begin{DoxyCompactList}\small\item\em \-This function merely seem to the \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()}, but it has aligned the word size to 64-\/bit /param region the data region will join the mulplication /param nbytes it will multiply the region. \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_af9ddf8d5bc1ffb75c4787d0c682b8772}{void \hyperlink{w__x_8h_af9ddf8d5bc1ffb75c4787d0c682b8772}{gf\-\_\-region\-\_\-multiby2\-\_\-w8} (unsigned char $\ast$region, int nbytes)}\label{w__x_8h_af9ddf8d5bc1ffb75c4787d0c682b8772}
+
+\begin{DoxyCompactList}\small\item\em this function is same to the function of \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()} in w4.\-c \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a4fcc1f969ae8b2fd126e8bc17d263b8b}{void \hyperlink{w__x_8h_a4fcc1f969ae8b2fd126e8bc17d263b8b}{gf\-\_\-region\-\_\-multiby2\-\_\-w8\-\_\-64} (unsigned char $\ast$region, int nbytes)}\label{w__x_8h_a4fcc1f969ae8b2fd126e8bc17d263b8b}
+
+\begin{DoxyCompactList}\small\item\em this function is just like function \hyperlink{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{gf\-\_\-region\-\_\-multiby2\-\_\-w4\-\_\-64()} in w4.\-c \end{DoxyCompactList}\item 
+void \hyperlink{w__x_8h_a53e31ede270b262573b3eee48219e9e0}{gf\-\_\-region\-\_\-multiby2\-\_\-w16} (unsigned char $\ast$region, int nbytes)
+\begin{DoxyCompactList}\small\item\em this function is same to the function of \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()} in w4.\-c \end{DoxyCompactList}\item 
+void \hyperlink{w__x_8h_a12311e4bb13846128d96a04aabe50039}{gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64} (unsigned char $\ast$region, int nbytes)
+\begin{DoxyCompactList}\small\item\em this function is same to the function of \hyperlink{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{gf\-\_\-region\-\_\-multiby2\-\_\-w4\-\_\-64()} in w4.\-c \end{DoxyCompactList}\item 
+void \hyperlink{w__x_8h_afd49723e187170bd73b5a631961495a5}{gf\-\_\-region\-\_\-multiby2\-\_\-w32} (unsigned char $\ast$region, int nbytes)
+\begin{DoxyCompactList}\small\item\em this function is same to the function of \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()} in w4.\-c \end{DoxyCompactList}\item 
+\hypertarget{w__x_8h_a215e2ffb8038de59136570f3ed118881}{void \hyperlink{w__x_8h_a215e2ffb8038de59136570f3ed118881}{gf\-\_\-region\-\_\-multiby2\-\_\-w32\-\_\-64} (unsigned char $\ast$region, int nbytes)}\label{w__x_8h_a215e2ffb8038de59136570f3ed118881}
+
+\begin{DoxyCompactList}\small\item\em this function is same to the function of \hyperlink{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{gf\-\_\-region\-\_\-multiby2\-\_\-w4\-\_\-64()} in w4.\-c \end{DoxyCompactList}\item 
+void \hyperlink{w__x_8h_a5c35f4fa1c1a0fbfda4e7bb610d29557}{gf\-\_\-region\-\_\-multiby2\-\_\-w64} (unsigned char $\ast$region, int nbytes)
+\begin{DoxyCompactList}\small\item\em this function is same to the function of gf\-\_\-region multiby2\-\_\-w4() in w4.\-c. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf galois\-\_\-region multiplication}\par
+{\em these funcitons are to make region multiplied by an integer, and such process uses the fastest single\-\_\-multi function for each w }\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{w__x_8h_af68ee065dc1a206a14abc8992df63358}{gf\-\_\-region\-\_\-multi\-\_\-w8} (unsigned char $\ast$region, int multiby, int nbytes, unsigned char $\ast$reslt, int add)
+\item 
+\hypertarget{w__x_8h_a940ecba1f1e2aad1579e1700fe29099a}{void \hyperlink{w__x_8h_a940ecba1f1e2aad1579e1700fe29099a}{gf\-\_\-region\-\_\-multi\-\_\-w16} (unsigned char $\ast$region, int multiby, int nbytes, unsigned char $\ast$reslt, int add)}\label{w__x_8h_a940ecba1f1e2aad1579e1700fe29099a}
+
+\begin{DoxyCompactList}\small\item\em this function is same to the function \hyperlink{w__x_8h_af68ee065dc1a206a14abc8992df63358}{gf\-\_\-region\-\_\-multi\-\_\-w8()} in w8.\-c \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{\-Detailed \-Description}
+\-This is a .h file contains all the functions completed considering the different values of w. \-And it's the head included by the files of w4.\-c w8.\-c w16.\-c w32.\-c w64.\-c w128.\-c. \-What's more, it is distinct to the other head files of \hyperlink{gf__table_8h}{gf\-\_\-table.\-h} and \hyperlink{multilib_8h}{multilib.\-h}. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{w__x_8h_af68ee065dc1a206a14abc8992df63358}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multi\-\_\-w8@{gf\-\_\-region\-\_\-multi\-\_\-w8}}
+\index{gf\-\_\-region\-\_\-multi\-\_\-w8@{gf\-\_\-region\-\_\-multi\-\_\-w8}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multi\-\_\-w8}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multi\-\_\-w8} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{multiby, }
+\item[{int}]{nbytes, }
+\item[{unsigned char $\ast$}]{reslt, }
+\item[{int}]{add}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_af68ee065dc1a206a14abc8992df63358}
+
+\begin{DoxyParams}{\-Parameters}
+{\em region} & the region will be in the multiplication \\
+\hline
+{\em multiby} & the number will multiply the region stated above \\
+\hline
+{\em nbytes} & the length of region \\
+\hline
+{\em reslt} & if it's not null, then the result of such multiplication will be stored here, or it will be stored in the region above  add if it's not zero, and reslt above not \-N\-U\-L\-L, then the result would first \-X\-O\-R reslt and then stored in reslt \\
+\hline
+\end{DoxyParams}
+\hypertarget{w__x_8h_a53e31ede270b262573b3eee48219e9e0}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multiby2\-\_\-w16@{gf\-\_\-region\-\_\-multiby2\-\_\-w16}}
+\index{gf\-\_\-region\-\_\-multiby2\-\_\-w16@{gf\-\_\-region\-\_\-multiby2\-\_\-w16}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multiby2\-\_\-w16}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multiby2\-\_\-w16} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_a53e31ede270b262573b3eee48219e9e0}
+
+
+this function is same to the function of \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()} in w4.\-c 
+
+\hypertarget{w__x_8h_a12311e4bb13846128d96a04aabe50039}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64@{gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64}}
+\index{gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64@{gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multiby2\-\_\-w16\-\_\-64} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_a12311e4bb13846128d96a04aabe50039}
+
+
+this function is same to the function of \hyperlink{w__x_8h_a98db331a2d557087d94d9e8ecf64e2a9}{gf\-\_\-region\-\_\-multiby2\-\_\-w4\-\_\-64()} in w4.\-c 
+
+\hypertarget{w__x_8h_afd49723e187170bd73b5a631961495a5}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multiby2\-\_\-w32@{gf\-\_\-region\-\_\-multiby2\-\_\-w32}}
+\index{gf\-\_\-region\-\_\-multiby2\-\_\-w32@{gf\-\_\-region\-\_\-multiby2\-\_\-w32}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multiby2\-\_\-w32}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multiby2\-\_\-w32} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_afd49723e187170bd73b5a631961495a5}
+
+
+this function is same to the function of \hyperlink{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{gf\-\_\-region\-\_\-multiby2\-\_\-w4()} in w4.\-c 
+
+\hypertarget{w__x_8h_aef0b51c08ed949119e9a729d1205521c}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multiby2\-\_\-w4@{gf\-\_\-region\-\_\-multiby2\-\_\-w4}}
+\index{gf\-\_\-region\-\_\-multiby2\-\_\-w4@{gf\-\_\-region\-\_\-multiby2\-\_\-w4}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multiby2\-\_\-w4}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multiby2\-\_\-w4} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_aef0b51c08ed949119e9a729d1205521c}
+
+
+this by 2 functions are another form of the gf algrithm without refer to the gflog and gfilog tables, whereas it is still rooting in the prim\-\_\-poly. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em region} & the data region will join the multiplication \\
+\hline
+{\em nbytes} & it will multiply the region \\
+\hline
+\end{DoxyParams}
+\hypertarget{w__x_8h_a5c35f4fa1c1a0fbfda4e7bb610d29557}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!gf\-\_\-region\-\_\-multiby2\-\_\-w64@{gf\-\_\-region\-\_\-multiby2\-\_\-w64}}
+\index{gf\-\_\-region\-\_\-multiby2\-\_\-w64@{gf\-\_\-region\-\_\-multiby2\-\_\-w64}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{gf\-\_\-region\-\_\-multiby2\-\_\-w64}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf gf\-\_\-region\-\_\-multiby2\-\_\-w64} (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{region, }
+\item[{int}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_a5c35f4fa1c1a0fbfda4e7bb610d29557}
+
+
+this function is same to the function of gf\-\_\-region multiby2\-\_\-w4() in w4.\-c. 
+
+\-And because it is 64-\/bit word size, so it need not to align to 64-\/bits \hypertarget{w__x_8h_af085beb6424bf9c8602fb6a83e2b7c6f}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!single\-\_\-logtable\-\_\-multi\-\_\-w16@{single\-\_\-logtable\-\_\-multi\-\_\-w16}}
+\index{single\-\_\-logtable\-\_\-multi\-\_\-w16@{single\-\_\-logtable\-\_\-multi\-\_\-w16}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{single\-\_\-logtable\-\_\-multi\-\_\-w16}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf single\-\_\-logtable\-\_\-multi\-\_\-w16} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_af085beb6424bf9c8602fb6a83e2b7c6f}
+
+
+call function of \hyperlink{gf__table_8h_a23d752950f2e6d7f8953bda354b34891}{gf\-\_\-logtable\-\_\-multi()} in gf\-\_\-tables.\-c 
+
+\hypertarget{w__x_8h_af158d1e7251d4d972d8abb61c60415cc}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!single\-\_\-logtable\-\_\-multi\-\_\-w8@{single\-\_\-logtable\-\_\-multi\-\_\-w8}}
+\index{single\-\_\-logtable\-\_\-multi\-\_\-w8@{single\-\_\-logtable\-\_\-multi\-\_\-w8}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{single\-\_\-logtable\-\_\-multi\-\_\-w8}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf single\-\_\-logtable\-\_\-multi\-\_\-w8} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_af158d1e7251d4d972d8abb61c60415cc}
+
+
+call function of gf\-\_\-logtable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c 
+
+exit(1); \hypertarget{w__x_8h_a86a27212036f53a61298bfc6f6fbcd2d}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!single\-\_\-multitable\-\_\-w8@{single\-\_\-multitable\-\_\-w8}}
+\index{single\-\_\-multitable\-\_\-w8@{single\-\_\-multitable\-\_\-w8}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{single\-\_\-multitable\-\_\-w8}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf single\-\_\-multitable\-\_\-w8} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_a86a27212036f53a61298bfc6f6fbcd2d}
+
+
+call function of gf\-\_\-multitable\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c 
+
+\hypertarget{w__x_8h_aae6d28357601f137b36ec23dba253ce9}{\index{w\-\_\-x.\-h@{w\-\_\-x.\-h}!single\-\_\-shift\-\_\-multi\-\_\-w8@{single\-\_\-shift\-\_\-multi\-\_\-w8}}
+\index{single\-\_\-shift\-\_\-multi\-\_\-w8@{single\-\_\-shift\-\_\-multi\-\_\-w8}!w_x.h@{w\-\_\-x.\-h}}
+\subsubsection[{single\-\_\-shift\-\_\-multi\-\_\-w8}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf single\-\_\-shift\-\_\-multi\-\_\-w8} (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)}}\label{w__x_8h_aae6d28357601f137b36ec23dba253ce9}
+
+
+call function of gf\-\_\-shift\-\_\-multi(x, y, w) in gf\-\_\-tables.\-c 
+
