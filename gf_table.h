@@ -44,4 +44,11 @@ int gf_multitable_multi(int x, int y, int w);
  * consideration the memory limitation, the space needing can be so tremendous that it can not be fulfillment when w > 33,
  * so this function doesn't use any table or look-up, it calculates the variable y's shifting values according to the every x-bit.
  */
- int gf_shift_multi(int x, int y, int w);
+int gf_shift_multi(int x, int y, int w);
+
+
+int gf_single_div(int a, int b, int w);
+
+void gf_invert_binary_matrix(int *mat, int *inv, int rows);
+
+int gf_shift_inverse(int y, int w);

@@ -172,3 +172,7 @@ void gf_region_multi_w8(unsigned char *region, //the region will be in the multi
 
 
 
+int gf_inverse_w8(int y) {
+	if(y == 0) return -1;
+	return gf_single_div(1, y, 8);
+}

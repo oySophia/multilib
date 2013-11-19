@@ -29,6 +29,7 @@ int single_logtable_multi_w4(int x, int y) {
 	return gf_logtable_multi(x, y, w);
 }
 
+
 /**@fn int single_multitable_w4(int x, int y)
  * @brief call function of gf_multitable_multi(x, y, w) in gf_tables.c
  */
@@ -150,4 +151,9 @@ void gf_region_multiby2_w4_64(unsigned char *region, int nbytes) {
 		*start = (tmp1) ^ (tmp2 & prim_64);
 		++start;
 	}
+}
+
+int gf_inverse_w4(int y) {
+	if(y == 0) return -1;
+	return gf_single_div(1, y, 4);
 }

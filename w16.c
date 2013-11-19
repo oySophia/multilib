@@ -177,3 +177,7 @@ void gf_region_multi_w16(unsigned char *region,
 	
 
 	
+int gf_inverse_w16(int y) {
+	if(y == 0) return -1;
+	return gf_single_div(1, y, 16);
+}

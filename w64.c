@@ -32,7 +32,7 @@ static uint64_t prim64 = 0x1b;
 }
 
 /**@fn void gf_region_multiby2_w64(unsigned char *region, int nbytes)
- * this function is same to the function of gf_region multiby2_w4() in w4.c.
+ :* this function is same to the function of gf_region multiby2_w4() in w4.c.
  * And because it is 64-bit word size, so it need not to align to 64-bits
  */
 void gf_region_multiby2_w64(unsigned char *region, int nbytes) {
@@ -47,4 +47,66 @@ void gf_region_multiby2_w64(unsigned char *region, int nbytes) {
 		*start = (*start << 1) ^ ((*start & 0x8000000000000000) ? prim64 :0);
 		++*start;
 	}
+}
+
+void gf_invert_binary_matrix_64(uint64_t *mat, uint64_t *inv) {
+	int i, j;
+	uint64_t tmp;
+	int rows, cols;
+	rows = cols = 64;
+
+	for(i = 0; i < cols; ++i) {
+		inv[i] = (1UL << i);
+	}
+
+	for(i = 0; i < cols; ++i) {
+		if((mat[i] & (1UL << i)) == 0) {
+			for(j = i + 1; j < rows && (mat[j] & (1UL << i)) == 0; ++j);
+			if(j == rows) {
+				printf("i = %du, j = %u\n", i, j);
+				fprintf(stderr, "gf_invert_matrix_64: matrix not invertible!!\n");
+				exit(1);
+			}
+			tmp = mat[i];
+			mat[i] = mat[j];
+			mat[j] = tmp;
+			tmp = inv[i];
+			inv[i] = inv[j];
+			inv[j] = tmp;
+		}
+		for(j = i + 1; j != rows; ++j) {
+			if((mat[j] & (1UL << i)) != 0) {
+				mat[j] ^= mat[i];
+				inv[j] ^= inv[i];
+			}
+		}
+	}
+	for(i = rows - 1; i >= 0; --i) {
+		for(j = 0; j < i; ++j) {
+			if((mat[j] & (1UL << i))) {
+				mat[j] ^= mat[i];
+				inv[j] ^= inv[i];
+			}
+		}
+	}
+
+}
+
+
+uint64_t gf_shift_inverse_64(uint64_t x) {
+	uint64_t mat[64];
+	uint64_t inv[64];
+	int i;
+
+	for(i = 0; i < 64; ++i) {
+		mat[i] = x;
+		if(x & 0x8000000000000000) {
+			x = x << 1;
+			x = x ^ prim64;
+		} else {
+			x = x << 1;
+		}
+	}
+	gf_invert_binary_matrix_64(mat, inv);
+	return inv[0];
 }

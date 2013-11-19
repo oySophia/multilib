@@ -85,3 +85,12 @@ void gf_region_multi_w16(unsigned char *region,
 //		unsigned char *reslt,
 //		int add);
 ///@}
+
+
+int gf_inverse_w4(int y);
+int gf_inverse_w8(int y);
+int gf_inverse_w16(int y);
+int gf_inverse_w32(int y);
+
+void gf_invert_binary_matrix_64(uint64_t *mat, uint64_t *inv);
+uint64_t gf_shift_inverse_64(uint64_t x);

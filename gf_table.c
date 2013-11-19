@@ -68,6 +68,11 @@ static int *gf_multi_tables[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
+static int *gf_div_tables[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+
+
 /**@fn int gf_create_tables(int w)
  * @brief create gflog tables and gfilog tables with the vented w.
  */
@@ -146,8 +151,9 @@ int gf_create_multi_tables(int w) {
 	}
 
 	gf_multi_tables[w] = (int *) malloc (sizeof(int) * nw[w] * nw[w]);
+	gf_div_tables[w] = (int *) malloc (sizeof(int) * nw[w] * nw[w]);
 //	printf("the pointer addr: %d, log addr%d\n", gf_multi_tables[w], gflog[w]);
-	if(gf_multi_tables[w] == NULL) {
+	if(gf_multi_tables[w] == NULL || gf_div_tables[w] == NULL) {
 		fprintf(stderr, "ERROR -- malloc gf_multi_tables[w] failed!\n");
 		//free(gf_multi_tables[w]);
 		return -1;
@@ -155,7 +161,9 @@ int gf_create_multi_tables(int w) {
 	if(gflog[w] == NULL) {
 		if(gf_create_tables(w) < 0) {
 			free(gf_multi_tables[w]);
+			free(gf_div_tables[w]);
 			gf_multi_tables[w] = NULL;
+			gf_div_tables[w] = NULL;
 			return -1;
 		}
 	}
@@ -167,12 +175,14 @@ int gf_create_multi_tables(int w) {
 	//printf("3\n");
 	//printf("the pointer addr: %d, log addr %d\n", gf_multi_tables[w], gflog[w]);
 	gf_multi_tables[w][global_i] = 0; //y = 0
+	gf_div_tables[w][global_i] = -1;
 //	printf("4\n");
 	++global_i;
 //	printf("5\n");
 	//for y != 0
 	for(index_y = 1; index_y < nw[w]; ++index_y) {
 		gf_multi_tables[w][global_i] = 0;
+		gf_div_tables[w][global_i] = 0;
 //		printf("%d\n", gf_multi_tables[w]);
 	//
 //		printf("%d\t", gf_multi_tables[w][gf_multi_tables[w][global_i]]);
@@ -185,12 +195,13 @@ int gf_create_multi_tables(int w) {
 	//set the multi tables for x > 0;
 	for(index_x = 1; index_x < nw[w]; ++index_x) {
 		gf_multi_tables[w][global_i] = 0;
+		gf_div_tables[w][global_i] = -1;
 //		printf("%d\t", gf_multi_tables[w][global_i]);
 		++global_i;
 		logx = gflog[w][index_x];
 		for(index_y = 1; index_y < nw[w]; ++index_y) {
 			gf_multi_tables[w][global_i] = gfilog[w][logx + gflog[w][index_y]];
-		
+			gf_div_tables[w][global_i] = gfilog[w][logx - gflog[w][index_y]];
 //			printf("%d\t", gf_multi_tables[w][global_i]);
 			++global_i;
 		}
@@ -243,25 +254,98 @@ int gf_shift_multi(int x, int y, int w) {
 	return result;
 }
 
+//just for 1 <= w <= 22
+int gf_single_div(int a, int b, int w) {
+	int sum;
+	if(w <= 9 && w >= 1) {
+		if(gf_div_tables[w] == NULL) {
+			if(gf_create_multi_tables(w) < 0) {
+				fprintf(stderr, "ERROR -- cannot make multiplication tables for w=%d\n", w);
+				exit(1);
+			}
+		}
+		return gf_div_tables[w][(a << w) | b];
+	} else if(w <= 22 && w > 9) {
+		if(b == 0) return -1;
+		if(a == 0) return 0;
+		if(gflog[w] == NULL) {
+			if(gf_create_tables(w) < 0) {
+				fprintf(stderr, "ERROR -- cannot make log tables for w=%d\n", w);
+				exit(1);
+			}
+		}
+		sum = gflog[w][a] - gflog[w][b];
+		return gfilog[w][sum];
+	} else {
+		//if(b == 0) return -1;
+		//if(a == 0) return 0;
+		//sum = gf_inverse(b, w);
+		//return gf_shift_multi(a, sum, w);
+	//}
+		fprintf(stderr, "gf_single_divide - no implementation for w = %d\n", w);
+		exit(1);
+	}
+}
+		
 
+void gf_invert_binary_matrix(int *mat, int *inv, int rows) {
+	int cols, i, j;
+	int tmp;
 
+	cols = rows;
 
+	for(i = 0; i < rows; ++i) {
+		inv[i] = (1 << i);
+	}
+	//operations on columns
+	for(i = 0; i < cols; ++i) {
+		if((mat[i] & (1 << i)) == 0) { //the 最高位是否是0，也就是对应的数值的二进制中是否有0值，如果有，交换，否则是不可能invertible的
+			for(j = i + 1; j < rows && (mat[j] & (1 << i)) == 0; ++j);
+			if(j == rows) {
+				fprintf(stderr, "gf_invert_matrix: matrix not invertible!!\n");
+				exit(1);
+			}
+			tmp = mat[i];
+		   	mat[i] = mat[j];
+			mat[j] = tmp;
+			tmp = inv[i];
+			inv[i] = inv[j];
+			inv[j] = tmp;
+		}
+		//for each j > i, add a_ji * ai to aj
+		for(j = i + 1; j != rows; ++j) {
+			if((mat[j] & (1 << i)) != 0) {
+				mat[j] ^= mat[i];
+				inv[j] ^= inv[i];
+			}
+		}
+	}
+	//upper triangular, start at the top and multiply down
+	for(i = rows - 1; i >= 0; --i) {
+		for(j = 0; j < i; ++j) {
+			if(mat[j] & (1 << i)) {
+				inv[j] ^= inv[i];
+			}
+		}
+	}
 
+	return ;
+}
 
+int gf_shift_inverse(int y, int w) {
+	int mat[32];// 23 <= w <= 32
+	int inv[32];
+	int i;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	for(i = 0; i < w; ++i) {
+		mat[i] = y;
+		if(y & nw[w - 1]) {
+			y = y << 1;
+			y = (y ^ prim_poly[w]) & table_nw[w];
+		} else {
+			y = y << 1;
+		}
+	}
+	gf_invert_binary_matrix(mat, inv, w);
+	return inv[0];
+}

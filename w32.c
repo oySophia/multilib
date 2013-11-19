@@ -218,3 +218,7 @@ void gf_region_multi_w32(unsigned char *region,
 	return;
 }
 
+int gf_inverse_w32(int y) {
+	if(y == 0) return -1;
+	return gf_shift_inverse(y, 32);
+}
