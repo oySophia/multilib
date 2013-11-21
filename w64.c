@@ -45,7 +45,7 @@ void gf_region_multiby2_w64(unsigned char *region, int nbytes) {
 
 	while(start < end) {
 		*start = (*start << 1) ^ ((*start & 0x8000000000000000) ? prim64 :0);
-		++*start;
+		++start;
 	}
 }
 

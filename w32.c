@@ -38,11 +38,15 @@ int gf_create_split_w8_tables() {
 
 	if(gf_split_w8[0] != NULL) return 0;
 
+	if(gf_create_multi_tables(8) < 0) {
+		return -1;
+	}
+
 	for(i = 0; i < 7; ++i) {
 		gf_split_w8[i] = (int *) malloc (sizeof(int) * (1 << 16));
 		if(gf_split_w8[i] == NULL) {
 			fprintf(stderr, "ERROR----gf_split_w8 malloc failed!\n");
-			exit(1);
+			return -1;
 		}
 	}
 
@@ -86,6 +90,16 @@ int gf_split_w8_multi(int x, int y) {
 	return sum;
 }
 
+int single_split8_multi_w32(int x, int y) {
+	if(gf_split_w8[0] == NULL) {
+		if(gf_create_split_w8_tables() < 0) {
+			fprintf(stderr, "ERROR -- cannot make log split_w8 tables for w = 32\n");
+			exit(1);
+		}
+	}
+	return gf_split_w8_multi(x, y);
+}
+
 
 /**@fn void gf_region_multiby2_w32(unsigned char *region, int nbytes)
  * @brief this function is same to the function of gf_region_multiby2_w4() in w4.c
@@ -96,7 +110,8 @@ void gf_region_multiby2_w32(unsigned char *region, int nbytes) {
 	unsigned char *length;
 
 	if(prim == -1) {
-		prim = gf_shift_multi((1 << 31), 2, 32);
+		//prim = gf_shift_multi((1 << 31), 2, 32);
+		prim = single_split8_multi_w32((1 << 31), 2);
 	}
 	
 	length = region + nbytes;
@@ -118,7 +133,8 @@ void gf_region_multiby2_w32_64(unsigned char *region, int nbytes) {
 	uint64_t tmp1, tmp2;
 
 	if(prim_64 == -1UL) {
-		tmp1 = (uint64_t)gf_shift_multi((1 << 31), 2, 32);
+		//tmp1 = (uint64_t)gf_shift_multi((1 << 31), 2, 32);
+		tmp1 = (uint64_t) single_split8_multi_w32((1 << 31), 2);
 		prim_64 = 0UL;
 		while(tmp1 != 0UL) {
 			prim_64 |= tmp1;

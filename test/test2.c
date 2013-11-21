@@ -3,7 +3,7 @@
 #include "../common.h"
 
 #define SIZE 128
-#define limit (1 << 8)
+#define limit (1 << 16)
 
 //this is to ensure single multiplication for w = 4, 8, 16(logtable, multi-full table, shift)
 int main(int argc, char *argv[]) {
@@ -21,8 +21,10 @@ int main(int argc, char *argv[]) {
 		--i;
 	}
 	for(i = 0; i < SIZE; ++i) {
-		ans1 = single_logtable_multi_w8(x[i], y[i]);
-		ans2 = single_multitable_w8(x[i], y[i]);
+		ans1 = single_logtable_multi_w16(x[i], y[i]);
+		//ans2 = single_multitable_w8(x[i], y[i]);
+		ans2 = single_shift_multi_w16(x[i], y[i]);
+		//printf("ans1 = %d, ans2 = %d\n", ans1, ans2);
 		if(ans1 - ans2 != 0) {
 			printf("such two methods has sth. wrong!\n");
 			printf("x = %u, y = %u, log_ans = %u, multi_ans = %u\n", x[i], y[i], ans1, ans2);

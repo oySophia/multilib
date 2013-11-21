@@ -154,8 +154,8 @@ void gf_region_multi_w8(unsigned char *region, //the region will be in the multi
 	unsigned char *r1, *r2;
 	int i, lookup;
 
-	r1 = (unsigned char *) region;
-	r2 = (reslt == NULL) ? r1 : (unsigned char *) reslt;
+	r1 = region;
+	r2 = (reslt == NULL) ? r1 : reslt;
 
 	if(reslt == NULL || !add) {
 		for(i = 0; i < nbytes; ++i) {
@@ -163,10 +163,20 @@ void gf_region_multi_w8(unsigned char *region, //the region will be in the multi
 			r2[i] = lookup;
 		}
 	} else {
+		
 		for(i = 0; i < nbytes; ++i) {
 			lookup = gf_multitable_multi(multiby, r1[i], 8);
 			r2[i] ^= lookup;
 		}
+		/*
+		sol = sizeof(long);
+		lp2 = &l;
+		lp = (unsigned char *) lp2;
+		for(i = 0; i < nbytes; i += sol) {
+			cp = r2 + i;
+			lp2 = (unsigned long *) cp;
+			for(j = 0; j < sol; ++j) {
+				prod = */
 	}
 }
 

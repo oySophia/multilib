@@ -30,6 +30,7 @@ int single_multitable_w8(int x, int y);
 ///{@
 int gf_create_split_w8_tables();
 int gf_split_w8_multi(int x, int y);
+int single_split8_multi_w32(int x, int y);
 ///@}
 
 /**@name single_shift multiplication
