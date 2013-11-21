@@ -101,8 +101,12 @@ int gf_create_tables(int w) {
 
 	b = 1;
 	for(log = 0; log < table_nw[w]; ++log) {
+		if(gflog[w][b] != table_nw[w]) {
+			fprintf(stderr, "ERROR -- gf_create_tables() error: log = %d, b = %d, w = %d\n", log, b, w);
+			exit(1);
+		}
 		gflog[w][b] = log;
-		gfilog[w][log] = gfilog[w][log + nw[w]]= b;
+		gfilog[w][log] = b;
 		b = b << 1;
 		if(b & nw[w]) {
 			b = (b ^ prim_poly[w]) & table_nw[w];

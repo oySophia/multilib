@@ -113,7 +113,7 @@ void gf_region_multiby2_w16_64(unsigned char *region, int nbytes) {
 	while(start < end) {
 		tmp1 = ((*start) << 1UL) & mask1_64;
 		tmp2 = (*start) & mask2_64;
-		tmp2 = (tmp2 << 1UL) - (tmp2 >> 16UL);
+		tmp2 = (tmp2 << 1UL) - (tmp2 >> 15UL);
 		*start = (tmp1) ^ (tmp2 & prim_64);
 		++start;
 	}

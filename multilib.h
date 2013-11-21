@@ -8,3 +8,5 @@
 #include <string.h>
 #include <stdint.h>
 #include <sys/time.h>
+
+typedef struct timeval now_time;

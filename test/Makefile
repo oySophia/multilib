@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall -fPIC
 
-ALL = test0 test1
+ALL = test0 test1 test2 test3 test4
 all: $(ALL)
 
 #"$@" means the dynamic variable:destinations' values, "$<" the reliable destination values
