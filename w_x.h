@@ -45,6 +45,7 @@ int single_shift_multi_w32(int x, int y);
 uint64_t gf_shift_multi_64(uint64_t x, uint64_t y);
 ///@}
 
+
 /**@name galois region muliplication by 2 functions and externed word-size to 64 using by 2 multiplication functions
  * functions listed below are used in raid6----refer to the algorithm by paper
  */
@@ -80,11 +81,11 @@ void gf_region_multi_w16(unsigned char *region,
 		unsigned char *reslt,
 		int add);
 
-//void gf_region_multi_w32(unsigned char *region,
-//		int multiby,
-//		int nbytes,
-//		unsigned char *reslt,
-//		int add);
+void gf_region_multi_w32(unsigned char *region,
+		int multiby,
+		int nbytes,
+		unsigned char *reslt,
+		int add);
 ///@}
 
 

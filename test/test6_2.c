@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 	}
 	uc1 = (unsigned short *) c1;
 	uc2 = (unsigned short *) c2;
-	uc3 = (unsigned short *) c2;
+	uc3 = (unsigned short *) c3;
 
 	printf("Now testing the r2 specified, and add = 0\n");
 	multiby = rand() % top;
