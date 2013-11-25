@@ -131,45 +131,80 @@ void gf_region_multi_w16(unsigned char *region,
 		int nbytes,
 		unsigned char *reslt,
 		int add) {
-	unsigned char *r1, *r2;
+	unsigned short *r1, *r2, *cp;
 	//int lookup;
-	int i;
+	int i, j;
+	unsigned long l, *lp2, *lptop;
+	unsigned short *lp;
+	int sol;
 
-	r1 = region;
-	r2 = (reslt == NULL) ? r1 : reslt;
+	r1 = (unsigned short *)region;
+	r2 = (reslt == NULL) ? r1 : (unsigned short *)reslt;
+	nbytes /= 2;
 
-	//if(multiby == 0) {
-	//	if(!add) {
-	//		start = (uint64_t *) r2;
-	//		r2 += nbytes;
-	//		end = (uint64_t *) r2;
-	//		while(start < end) {
-	//			*start = 0;
-	//			++start;
-	//		}
+	if(multiby == 0) {
+		if(!add) {
+			lp2 = (unsigned long *) r2;
+			r2 += nbytes;
+			lptop = (unsigned long *) r2;
+			while(lp2 < lptop) {
+				*lp2 = 0;
+				++lp2;
+			}
+		}
+		return;
+	}
+
+	if(reslt == NULL || !add) {
+		for(i = 0; i < nbytes; ++i) {
+			if(r1[i] == 0) {
+				r2[i] = 0;
+			} else{
+				r2[i] = gf_logtable_multi(multiby, r1[i], 16);
+			}
+		}
+	} else{
+		sol = sizeof(long) / 2;
+		lp2 = &l;
+		lp = (unsigned short *) lp2;
+		for(i = 0; i < nbytes; i += sol) {
+			cp = r2 + i;
+			lp2 = (unsigned long *)cp;
+			for(j = 0; j < sol; ++j) {
+				if(r1[i + j] == 0) {
+					lp[j] = 0;
+				} else {
+					lp[j] = gf_logtable_multi(r1[i + j], multiby, 16);
+				}
+			}
+			*lp2 = (*lp2) ^ l;
+		}
+	}
+	return;
+
 	//	}
 	//	return;
 	//}
 
-	if(reslt == NULL || !add) {
-		for(i = 0; i < nbytes; ++i) {
+	//if(reslt == NULL || !add) {
+	//	for(i = 0; i < nbytes; ++i) {
 		//	if(r1[i] == 0) {
 		//		r2[i] = 0;
 		//	} else {
-			r2[i] = gf_logtable_multi(multiby, r1[i], 16);
+	//		r2[i] = gf_logtable_multi(multiby, r1[i], 16);
 		//	}
-		}
-	} else {
-		for(i = 0; i < nbytes; ++i) {
+	//	}
+	//} else {
+	//	for(i = 0; i < nbytes; ++i) {
 		//	if(r1[i] == 0) {
 		//		r2[i] = 0;
 		//	} else {
-			r2[i] = r2[i] ^ gf_logtable_multi(multiby, r1[i], 16);
+	//		r2[i] = r2[i] ^ gf_logtable_multi(multiby, r1[i], 16);
 		//	}
-		}
-
-	}
-	return;
+//		}
+//
+//	}
+//	return;
 }
 
 	
