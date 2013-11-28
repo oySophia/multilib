@@ -25,6 +25,12 @@ int single_logtable_multi_w16(int x, int y) {
 	return gf_logtable_multi(x, y, w);
 }
 
+int single_multi_lrtbl_w16(int x, int y) {
+	int w = 16;
+	return gf_multi_lr_multi(x, y, w);
+}
+
+
 /**@fn int single_shift_multi_w16(int x, int y)
  * @brief call function of gf_shift_multi() in gf_tables.c
  */

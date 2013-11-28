@@ -23,7 +23,7 @@ int single_multitable_w8(int x, int y);
 ///@}
 
 int single_multi_lrtbl_w8(int x, int y);
-
+int single_multi_lrtbl_w16(int x, int y);
 
 /**@name galois split_w8 multiplication
  * such 2 funcitons are special for w = 32; it's much simple merely dividing the 32-bit to 4 8-bit trips, and the split_tables just have the eventual answers of trip by trip considering the high bits.
