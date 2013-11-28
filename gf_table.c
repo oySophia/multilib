@@ -72,6 +72,15 @@ static int *gf_div_tables[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
+///The optimizing of the full multiplication table
+static int *gf_multi_left_tbl[33] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+
+static int *gf_multi_right_tbl[33] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+
 
 /**@fn int gf_create_tables(int w)
  * @brief create gflog tables and gfilog tables with the vented w.
@@ -186,7 +195,7 @@ int gf_create_multi_tables(int w) {
 	//for y != 0
 	for(index_y = 1; index_y < nw[w]; ++index_y) {
 		gf_multi_tables[w][global_i] = 0;
-		gf_div_tables[w][global_i] = 0;
+		gf_div_tables[w][global_i] = -1;
 //		printf("%d\n", gf_multi_tables[w]);
 	//
 //		printf("%d\t", gf_multi_tables[w][gf_multi_tables[w][global_i]]);
@@ -229,6 +238,86 @@ int gf_multitable_multi(int x, int y, int w) {
 
 	return gf_multi_tables[w][(x << w) | y];
 } 
+
+int gf_create_lr_multi_tbl(int w) {
+	int i, index_x, index_y, logx_left, logx_right;
+	int half;
+
+	if(w >= 18) { //if w is too big, the mem. cannot hold all the tables
+		return -1;
+	}
+
+	if(gf_multi_left_tbl[w] != NULL) { //if the multi lr tables already exists, then there is no need to go on
+		return 0;
+	}
+
+	half = (1 << (w / 2));
+	gf_multi_left_tbl[w] = (int *) malloc (sizeof(int) * nw[w] * half);
+	gf_multi_right_tbl[w] = (int *) malloc (sizeof(int) * nw[w] * half);
+
+	if(gf_multi_left_tbl[w] == NULL || gf_multi_right_tbl[w] == NULL) {
+		fprintf(stderr, "ERROR -- malloc of gf double tables failed in file gf_tables!\n");
+		return -1;
+	}
+	if(gflog[w] == NULL) {
+		if(gf_create_tables(w) < 0) {
+			free(gf_multi_left_tbl[w]);
+			free(gf_multi_right_tbl[w]);
+			gf_multi_left_tbl[w] = NULL;
+			gf_multi_right_tbl[w] = NULL;
+			return -1;
+		}
+	}
+
+	//when x = 0;
+	i = 0;
+	gf_multi_left_tbl[w][i] = 0;
+	gf_multi_right_tbl[w][i] = 0;
+	
+	++i;
+
+	for(index_y = 1; index_y < nw[w]; ++index_y) {
+		gf_multi_left_tbl[w][i] = 0;
+		gf_multi_right_tbl[w][i] = 0;
+		++i;
+	}
+	//printf("1\n");
+
+	for(index_x = 1; index_x < half; ++index_x) {
+
+		gf_multi_left_tbl[w][i] = 0; //when y = 0
+		gf_multi_right_tbl[w][i] = 0;
+		++i;
+		logx_right = gflog[w][index_x]; //the least significant bits
+		logx_left = gflog[w][index_x << (w / 2)]; //the most significant bits
+		for(index_y = 1; index_y < nw[w]; ++index_y) {
+			gf_multi_right_tbl[w][i] = gfilog[w][logx_right + gflog[w][index_y]];
+			gf_multi_left_tbl[w][i] = gfilog[w][logx_left + gflog[w][index_y]];
+			++i;
+		}
+	}
+	//printf("2\n");
+	return 0;
+}
+
+int gf_multi_lr_multi(int x, int y, int w) {
+	int x_left, x_right;
+	int half;
+	if(gf_multi_left_tbl[w] == NULL) {
+		if(gf_create_lr_multi_tbl(w) < 0) {
+			fprintf(stderr, "ERROR -- cannot make gf_create_lr_multi_tbl functions!\n");
+			exit(1);
+		}
+	}
+
+	half = (w / 2);
+	x_left = x >> (half);
+	x_right = (x_left << (half)) ^ x;
+	return gf_multi_left_tbl[w][(x_left << w) | y] ^ gf_multi_right_tbl[w][(x_right << w) | y];
+}
+
+
+
 
 /**@fn
  * @brief this shift function is a bit different with the table-looking-up ones, following the traditional multiply way: binary x and * y bit by bit with transfer such proccess to a y-shifting with MOD the prim_poly.

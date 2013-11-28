@@ -39,6 +39,9 @@ int gf_create_multi_tables(int w);
  */
 int gf_multitable_multi(int x, int y, int w);
 
+int gf_create_lr_multi_tbl(int w);
+int gf_multi_lr_multi(int x, int y, int w);
+
 /**@fn int gf_shift_multi(int x, int y, int w)
  * shift_multi can be for w <= 33, and when w = 64, it has been achieved in the file w64.c.
  * consideration the memory limitation, the space needing can be so tremendous that it can not be fulfillment when w > 33,
