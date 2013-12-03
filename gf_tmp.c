@@ -53,17 +53,6 @@ static int table_nw[33] = { 0, (1 << 1)-1, (1 << 2)-1, (1 << 3)-1, (1 << 4)-1,
     (1 << 23)-1, (1 << 24)-1, (1 << 25)-1, (1 << 26)-1, (1 << 27)-1, (1 << 28)-1,
     (1 << 29)-1, (1 << 30)-1, 0x7fffffff, 0xffffffff };
 
-///the original gfilog tables
-//static int *gflog_orig[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
- //  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  // NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-
-///the original gfilog tables
-//static int *gfilog_orig[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
-//   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-//   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-//
-
 ///the gflog tables
 static int *gflog[33] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -114,11 +103,11 @@ static int *gf_multi_right_tbl[33] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL,
    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 
-//int gf_create_tables_orig(int w) {
-//}
+int gf_create_tables_orig(int w) {
+}
 
-//int gf_logtable_multi_orig(int w, int x, int y) {
-//}
+int gf_logtable_multi_orig(int w, int x, int y) {
+}
 
 
 
@@ -165,7 +154,7 @@ int gf_create_tables(int w) {
 		gfilog[w][log + table_nw[w]] = gfilog[w][log];
 		gfilog[w][log + 2 * table_nw[w]] = gfilog[w][log];
 	}
-	gfilog[w] += table_nw[w]; //to move the addr of the table of size of table_nw[w]
+	gfilog[w] += table_nw[w];
 	return 1;
 }
 
@@ -180,7 +169,7 @@ int gf_create_tables_Huang(int w) {
     }    
           
 	gflog_Huang[w] = (int *) malloc (sizeof(int) * nw[w]);
-	gfilog_Huang[w] = (int *) malloc (sizeof(int) * nw[w]);
+	gfilog_Huang[w] = (int *) malloc (sizeof(int) * (nw[w] + 1));
     if((gflog_Huang[w] == NULL) || (gfilog_Huang[w] == NULL)) {
 		fprintf(stderr, "ERROR -- malloc gflog_Huang or gfilog_Huang tables failed!\n");
 		//free(gflog[w]);
@@ -206,13 +195,13 @@ int gf_create_tables_Huang(int w) {
 	 		b = (b ^ prim_poly[w]) & table_nw[w];
 		}  
 	}
-	gfilog_Huang[w][table_nw[w]] = gfilog_Huang[w][0];//the augment of the expf table to eliminate mod operations
-	gfilog_Huang[w] += table_nw[w];
+	gfilog_Huang[w][nw[w]] = gfilog_Huang[w][0];//the augment of the expf table to eliminate mod operations
+
 	//for(log = 0; log < table_nw[w]; ++log) {
 	//	gfilog[w][log + table_nw[w]] = gfilog[w][log];
 	//	gfilog[w][log + 2 * table_nw[w]] = gfilog[w][log];
  	//}    
-    //gfilog_Huang[w] += table_nw[w];
+    gfilog_Huang[w] += table_nw[w];
     return 1;
 }        
 
@@ -247,81 +236,13 @@ int gf_logtable_multi_Huang(int x, int y, int w) {
 			exit(1);
 		}
 	}
-	return gfilog_Huang[w][((gflog_Huang[w][x] + gflog_Huang[w][y]) & table_nw[w]) + ((gflog_Huang[w][x] + gflog_Huang[w][y]) >> w)];
+	return gfilog_Huang[w][(gflog_Huang[w][x] + gflog_Huang[w][y]) & nw[w] + (gflog_Huang[w][x] + gflog_Huang[w][y]) >> w];
 }
-
-//the log and ilog tables created are the same, with 2^w + 2^w, whereas it lies on the mod operation;
-int gf_logtable_multi_orig(int x, int y, int w) {
-	if(x == 0 || y == 0) {
-		return 0;
-	}
-	if(gflog_Huang[w] == NULL) {
-		if(gf_create_tables_Huang(w) < 0) {
-			fprintf(stderr, "ERROR -- cannot make Huang's log tables for the original used with w = %d\n", w);
-			exit(1);
-		}
-	}
-	return gfilog_Huang[w][(gflog_Huang[w][x] + gflog_Huang[w][y]) % table_nw[w]];
-}
-
 
 int gf_create_tables_optimized(int w) {
-	int b, log;
-	if(w > 30) {
-		return -1;
-	}
-	if(gflog_optimized[w] != NULL) {
-		return 0;
-	}
-
-	gflog_optimized[w] = (int *) malloc (sizeof(int) * nw[w]);
-	gfilog_optimized[w] = (int *) malloc (sizeof(int) * nw[w] * 4);
-
-	if((gflog_optimized[w] == NULL) || (gfilog_optimized[w] == NULL)) {
-		fprintf(stderr, "ERROR -- malloc gflog_optimized of glilog _optimized failed with w = %d\n", w);
-		return -1;
-	}
-
-	for(log = 0; log < nw[w]; ++log) {
-		gflog_optimized[w][log] = 2 * table_nw[w];
-		gfilog_optimized[w][log] = 0;
-	}
-
-	b = 1;
-	for(log = 0; log < table_nw[w]; ++log) {
-		if(gflog_optimized[w][b] != 2 * table_nw[w]) {
-			fprintf(stderr, "ERROR -- gf_create_tables_optimized() error\n");
-			exit(1);
-		}
-		gflog_optimized[w][b] = log;
-		gfilog_optimized[w][log] = b;
-		b = b << 1;
-		if(b & nw[w]) {
-			b = (b ^ prim_poly[w]) & table_nw[w];
-		}
-	}
-	
-	for(log = 0; log < table_nw[w]; ++log) {
-		gfilog_optimized[w][log + table_nw[w]] = gfilog_optimized[w][log];
-	}
-	
-	b = 4 * nw[w];
-	for(log = 2 * table_nw[w]; log < b; ++log) { //taking the 0 into consideration, and eliminate the branch of if(x == 0 || y == 0) .....
-		gfilog_optimized[w][log] = 0;
-	}
-	gfilog_optimized[w] += table_nw[w];
-	return 1;
 }
 
 int gf_logtable_multi_optimized(int x, int y, int w) {
-	if(gflog_optimized[w] == NULL) {
-		if(gf_create_tables_optimized(w) < 0) {
-			fprintf(stderr, "ERROR -- cannot make the gf_create_tables of optimized\n");
-			exit(1);
-		}
-	}
-
-	return gfilog_optimized[w][gflog_optimized[w][x] + gflog_optimized[w][y]];
 }
 
 

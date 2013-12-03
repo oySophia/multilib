@@ -22,6 +22,7 @@ int single_multitable_w4(int x, int y);
 int single_multitable_w8(int x, int y);
 ///@}
 
+int single_multi_lrtbl_w4(int x, int y);
 int single_multi_lrtbl_w8(int x, int y);
 int single_multi_lrtbl_w16(int x, int y);
 

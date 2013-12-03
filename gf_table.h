@@ -19,6 +19,12 @@
 //    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 //	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };   
 
+
+//this two function is the original ones of log and ilog tables
+//int gf_create_tables_orig(int w); //we just can use the Huang's tables with the same range of 2^w + 2^w
+int gf_logtable_multi_orig(int x, int y, int w);
+
+/////this two functions is the aproach 2, which augment the expf table to 3 * nw[w], and eliminate the % operation
 /**@fn int gf_create_tables(int w)
  * @brief log and ilog tables just for w < 30
  */
@@ -28,6 +34,15 @@ int gf_create_tables(int w);
  * @brief related functions with gf_create_tables, further fulfullment of gf_logtables multiplication
  */
 int gf_logtable_multi(int x, int y, int w);
+
+//this funciton is the approach 1, which use an &, shift etc. to eliminate the mod operation without augment the tables
+int gf_create_tables_Huang(int w);
+int gf_logtable_multi_Huang(int x, int y, int w);
+
+//(approach 3)this two function is the optimized log and ilog algorithm to eliminate the mod operation and the branch operation.
+int gf_create_tables_optimized(int w);
+int gf_logtable_multi_optimized(int x, int y, int w);
+
 
 /**@fn int gf_create_multi_tables(int w)
  * Multi_tables just for w <= 13. This function just applies log and ilog tables to complete the full-multiplication tables, which need much more space but less compute.

@@ -57,6 +57,11 @@ int single_multitable_w4(int x, int y) {
 	return gf_multitable_multi(x, y, w);
 }
 
+int single_multi_lrtbl_w4(int x, int y) {
+	int w = 0;
+	return gf_multi_lr_multi(x, y, w);
+}
+
 /**@fn int single_shift_multi_w4(int x, int y)
  * @brief call function of gf_shift_multi(x, y, w) in gf_tables.c
  */
